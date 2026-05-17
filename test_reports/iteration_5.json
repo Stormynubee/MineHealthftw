@@ -1,0 +1,37 @@
+{
+  "summary": "Iteration 5 backend tests — 14/14 passed in 2.22s. Validated the new Ideas Journal endpoints (POST /api/ideas/day enforces >=3 non-empty entries with exact detail message 'Need at least 3 ideas. You provided {n}.'; first save returns {ok:true,count,xp_awarded:30} and bumps profile.total_xp by +30; same-day re-save returns xp_awarded:0 and leaves XP unchanged while still updating the document; GET /api/ideas/today reflects latest list; GET /api/ideas/recent returns docs sorted desc by date). Validated the Distractions tracker (POST /api/distractions lowercases source, stores today's date, returns xp_penalty=-20 for 10 min and -60 capped for 35 min; profile.total_xp decreases by exactly that amount; duration_mins boundaries 0 and 1000 return 422; GET /api/distractions/today returns {entries,total_minutes,by_source} aggregated correctly; GET /api/distractions/stats returns 7-bucket chart with today populated; DELETE /api/distractions/{id} removes the row and does NOT refund XP). Regression: /api/profile, /api/dashboard/summary, and full /api/tasks CRUD + toggle complete/uncomplete flow all green.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/distractions", "issue": "source is a free-form string (only .lower() applied). The PRD lists 5 expected sources (phone/youtube/instagram/twitter/other) but any string is accepted, which can fragment the by_source aggregation. Consider Literal or enum validation."},
+      {"endpoint": "DELETE /api/distractions/{id}", "issue": "Deletion does not refund the XP penalty that was applied on creation, and silently returns {ok:true} even when no document matches the id. Two edge-cases worth deciding explicitly: (a) refund policy on misclick, (b) 404 on unknown id."},
+      {"endpoint": "POST /api/ideas/day", "issue": "Non-string entries (e.g., null, numbers) inside the ideas list will raise an unhandled error or pass through unfiltered because the comprehension does `i and i.strip()` — Pydantic already coerces but a non-str list element would 422; acceptable but the strip-based dedup does not de-duplicate identical ideas."},
+      {"endpoint": "POST /api/ideas/day", "issue": "XP formula '30 + 10 per idea beyond 3' is documented in PRD but only base 30 was asserted (test sent 3 then 4 ideas). The +10/extra bonus only fires on first save, which the code path supports correctly, but is currently uncovered by an explicit assertion. Behaviour observed in code matches PRD."}
+    ]
+  },
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_iter5_ideas_distractions.py",
+    "/app/test_reports/pytest/iteration_5_results.xml"
+  ],
+  "action_items": [
+    "(Optional) Constrain DistractionCreate.source to Literal['phone','youtube','instagram','twitter','other'] to keep by_source aggregation clean.",
+    "(Optional) Decide on refund policy for DELETE /api/distractions/{id} — currently the XP penalty stays applied, which may surprise users who mistype a duration.",
+    "(Optional) Return 404 from DELETE /api/distractions/{id} when no document matches; current implementation is silent."
+  ],
+  "critical_code_review_comments": [
+    "Ideas endpoint correctly preserves the doc id across same-day updates (re-uses existing['id']), so /ideas/today round-trip is stable.",
+    "Distractions endpoint properly excludes mongo _id via doc.pop('_id', None) before returning — no ObjectId leak.",
+    "XP penalty math `min(60, mins*2)` is correct and the 60-cap is reachable at exactly 30 min (verified at 35 min → -60).",
+    "ensure_profile + award_xp keeps total_xp >= 0 via max(0, ...), so very large penalties on a low-XP profile cap at 0 instead of going negative — good defensive behaviour.",
+    "GET /api/distractions/stats and /api/ideas/recent both build the date_list inline; consider extracting a helper to avoid drift (recent uses range(days) ascending-from-today, stats uses range(days-1, -1, -1) — minor consistency nit, both produce correct results)."
+  ],
+  "updated_files": ["/app/backend/tests/test_iter5_ideas_distractions.py"],
+  "success_rate": {"backend": "100% (14/14)", "frontend": "not tested (backend-only request)"},
+  "test_credentials": "single default user 'player_one' (no auth)",
+  "seed_data_creation": "Module-scoped autouse fixture wipes today's ideas_log + distractions for player_one before AND after the run, so no TEST_iter5 ideas/distractions remain. Tasks: created 1 'TEST_iter5 regression task' which is deleted by the same test via DELETE /api/tasks/{id}. XP impact on profile.total_xp is intentionally not rolled back (net = +30 ideas, -20, -60 distractions, +25 task complete, -25 task uncomplete = -50 XP for player_one). All test data is verified clean.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Iter 1-4 test files plus new /app/backend/tests/test_iter5_ideas_distractions.py all pass. New collections in use: ideas_log (keyed by user_id+date) and distractions (id-scoped). The Pomodoro/Meditation custom-minutes UI change mentioned in the PRD was NOT covered (frontend-only and out of scope for this backend-only request). No mocks were used. EMERGENT_LLM_KEY-dependent endpoints were not exercised this round.",
+  "rca of the issue": "N/A — no failures."
+}

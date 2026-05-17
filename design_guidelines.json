@@ -1,0 +1,127 @@
+{
+  "theme": "dark",
+  "archetype": "Matte Voxel / Indie Dark (Archetype 2 \u0026 4 Hybrid)",
+  "emotional_tone": "Focused, motivating, nostalgic, ruggedly structured yet elegant.",
+  "typography": {
+    "fonts": {
+      "headings": {
+        "family": "'Silkscreen', 'Press Start 2P', monospace",
+        "weights": ["400"],
+        "usage": "Primary hero text, Level \u0026 XP indicators, Section Titles"
+      },
+      "subheadings": {
+        "family": "'VT323', monospace",
+        "weights": ["400"],
+        "usage": "Dense game text, secondary stats, dialogue boxes"
+      },
+      "body": {
+        "family": "'JetBrains Mono', 'Space Mono', monospace",
+        "weights": ["400", "500", "700"],
+        "usage": "Data tables, checklists, body text, form inputs, tooltips"
+      }
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl tracking-tighter",
+      "h2": "text-2xl sm:text-3xl tracking-tight",
+      "h3": "text-xl sm:text-2xl",
+      "h4": "text-lg",
+      "body": "text-sm sm:text-base leading-relaxed",
+      "small": "text-xs tracking-widest uppercase"
+    }
+  },
+  "colors": {
+    "background": {
+      "primary": "#18181B",
+      "secondary": "#27272A",
+      "tertiary": "#09090B",
+      "description": "Deep stone slate mimicking mining depths. Subtle noise overlay recommended."
+    },
+    "text": {
+      "primary": "#F4F4F5",
+      "secondary": "#A1A1AA",
+      "muted": "#71717A"
+    },
+    "accents": {
+      "primary": "#22C55E",
+      "primary_hover": "#16A34A",
+      "primary_name": "XP Grass Green",
+      "secondary": "#EAB308",
+      "secondary_name": "Gold Ingot",
+      "tertiary": "#3B82F6",
+      "tertiary_name": "Diamond Blue",
+      "danger": "#EF4444",
+      "danger_name": "Redstone Red"
+    },
+    "borders": {
+      "default": "#000000",
+      "focus": "#22C55E"
+    }
+  },
+  "layout": {
+    "spacing_scale": "Tailwind standard, but using p-6 or p-8 for internal card padding to ensure bento grid breathes.",
+    "grid_system": {
+      "dashboard_mode": "Control Room Grid. Base grid-cols-1 lg:grid-cols-12 gap-6.",
+      "cards": "Sub-components span 3, 4, or 6 columns based on importance."
+    },
+    "structural_patterns": {
+      "shell": "Left Sidebar (w-20 md:w-64) with pixel-icon navigation. Main content area takes remaining width.",
+      "hero_section": "Col-span-12. Contains Player Banner, Level, Streak, and animated XP Progress Bar.",
+      "study_zone": "Col-span-12 lg:col-span-8. Pomodoro, Study Quests, Academic Graph.",
+      "health_career_zone": "Col-span-12 lg:col-span-4. Vertical stack for Health Tribute \u0026 Career Hub."
+    }
+  },
+  "surfaces": {
+    "card_style": "Neo-brutalist / Voxel tactile style. solid background (bg-zinc-900), hard 2px solid black border (border-2 border-black), and offset block shadow (shadow-[4px_4px_0px_0px_#000000]).",
+    "hover_state": "Translate slightly (translate-y-[2px] translate-x-[2px]) and reduce shadow (shadow-[2px_2px_0px_0px_#000000]) to simulate pressing a physical block.",
+    "glass_style": "Banned. Do not use glassmorphism. Stick to solid blocks for structural honesty."
+  },
+  "components": {
+    "progress_bar": "XP Bar style. segmented blocks or pixelated fill. bg-black container, bg-green-500 fill, border-2 border-black.",
+    "buttons": "Square edges (rounded-none), bold uppercase monospace text, block shadows. Primary action gets Diamond Blue or XP Green.",
+    "checkbox": "Shadcn custom. 24x24px, square, border-2 border-black. Checkmark is a pixel art cross or standard check.",
+    "tabs": "Blocky, rugged. Active tab appears pressed down or has a vibrant bottom/top border.",
+    "charts": "Recharts with monospace fonts on axes, sharp right-angled lines (step mode) instead of smooth curves for the academic graph."
+  },
+  "motion": {
+    "page_transitions": "Block-drop entrance (fade in + translate-y-4).",
+    "micro_interactions": "Instant, snappy. No slow fading. Mimic 8-bit game responsiveness.",
+    "xp_gain": "Number pop-up animations (e.g., '+50 XP') floating up and fading out."
+  },
+  "media": {
+    "image_urls": [
+      {
+        "url": "https://images.unsplash.com/photo-1706048121567-ab03628a36d2?crop=entropy\u0026cs=srgb\u0026fm=jpg\u0026ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwyfHxkYXJrJTIwc3R1ZHklMjBzZXR1cCUyMGRlc2t8ZW58MHx8fHwxNzc2Njk2NjM2fDA\u0026ixlib=rb-4.1.0\u0026q=85",
+        "description": "Dark aesthetic study/coding desk setup. Use as a potential hero background or Career Hub header with an overlay.",
+        "category": "hero_background"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1760753145427-c327d09ace00?crop=entropy\u0026cs=srgb\u0026fm=jpg\u0026ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxwaXhlbCUyMGFydCUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NzY2MjAzMTB8MA\u0026ixlib=rb-4.1.0\u0026q=85",
+        "description": "Computer setup in a forest with a smiley face. Indie game/pixel vibe. Use for Health/Tribute Zone header.",
+        "category": "health_background"
+      },
+      {
+        "url": "https://images.pexels.com/photos/27722492/pexels-photo-27722492.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=2\u0026h=650\u0026w=940",
+        "description": "Vibrant dark space/nebula. Use for Meditation Timer background or 'Deep Focus' mode.",
+        "category": "meditation_background"
+      }
+    ]
+  },
+  "specific_features": {
+    "hero_dashboard": "Display an overarching Level, XP Bar, current rank (e.g., 'Novice Engineer'), and streak flames.",
+    "study_quests": "A nested accordion or list using checkbox inputs for JEE Physics/Chem/Maths. Each check awards XP.",
+    "pomodoro": "A blocky, digital clock style timer. When active, dim the rest of the UI slightly.",
+    "health_tribute_zone": "Grid of tracking cards: Health Condition Meds (alert color: Redstone), Food Time Buddy, Yoga Nidra toggle, Wim Hof tracker, Skin Issue log. Uses toggle switches or custom checkboxes.",
+    "career_hub": "Mini-dashboard tracking daily video edits (counter), clients (counter), and a LinkedIn external link button.",
+    "ai_buddy": "A persistent or toggleable chat panel in a dialogue-box style (think RPG NPC conversation box). Used for Claude 4.5 tips."
+  },
+  "accessibility_and_testing": {
+    "testing_attributes": "All interactive elements (buttons, inputs, tabs, checkboxes) MUST include `data-testid` (e.g., `data-testid=\"quest-checkbox-physics\"`).",
+    "contrast": "Ensure text over the dark backgrounds meets APCA standards. Use primary white/off-white for body text."
+  },
+  "instructions_to_main_agent": {
+    "frameworks": "React, Tailwind CSS, Shadcn UI, Recharts, Lucide Icons (or Phosphor Icons/Pixel Icons if preferred for game feel).",
+    "setup": "Install `lucide-react` or `react-icons` for game-style icons. Use `sonner` for XP/Achievement toasts.",
+    "custom_css": "Add custom utility classes in tailwind config or index.css for the neo-brutalist shadows (`shadow-pixel: 4px 4px 0 0 #000`) to apply them cleanly.",
+    "fonts": "Import 'Silkscreen', 'VT323', and 'JetBrains Mono' from Google Fonts."
+  }
+}
